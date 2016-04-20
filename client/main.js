@@ -5,60 +5,66 @@ const electron = require('electron');
 const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
+// YAML parsers
+const YAML = require('yamljs');
+// Config path
+const configPath = "config.yml";
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow, mainWindow2;
+let windows;
 
-function createWindow () {
-  // Create the browser window.
-  mainWindow  = new BrowserWindow({width: 800, height: 600});
-  mainWindow2 = new BrowserWindow({width: 800, height: 600});
+function init() {
+  windows = [];
+  let config = YAML.load(configPath) || {screens : []};
+  console.log(config);
+  for(var index = 0; index < config.screens.length; index++) {
+    createWindows(index, config.screens[index]);
+    // rotateWindows();
+  }
 
-  // and load the index.html of the app.
-  mainWindow.loadURL('file://' + __dirname + '/index.html');
-  mainWindow2.loadURL('http://google.com');
 
-  // Module to handle multiple screens
-  const screen = require('screen');
+}
 
-  console.log(screen.getAllDisplays()),
+function createWindows(index, urls) {
+  let display = getDisplay(index);
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  for(var i = 0; i < urls.length; i++) {
+    let window = createWindow(display, urls[i]);
+    windows.push(window);
+  }
+}
 
-  // Emitted when the window is closed.
-  mainWindow.on('closed', function() {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = null;
-  });
-  mainWindow2.on('closed', function() {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow2 = null;
-  });
+function createWindow(display, url) {
+  let options = {
+    x: 0,
+    y: 0,
+    width: display.size.width,
+    height: display.size.height,
+    fullscreen: true,
+    frame: false
+  };
+  let window = new BrowserWindow(options);
+  window.loadURL(url);
+  return window;
+}
+
+function getDisplay(index) {
+  let screen = require('screen');
+  let displays = screen.getAllDisplays();
+  if (index < displays.length) {
+    return displays[index];
+  }
+  throw "Not enough displays available!";
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
-app.on('ready', createWindow);
+app.on('ready', init);
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
-
-app.on('activate', function () {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
-    createWindow();
-  }
+  app.quit();
 });
