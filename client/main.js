@@ -8,52 +8,35 @@ const BrowserWindow = electron.BrowserWindow;
 // YAML parsers
 const YAML = require('yamljs');
 // Config path
-const configPath = __dirname + "/config.yml";
+const configPath = __dirname + '/config.yml';
+// Index page
+const indexUrl = 'file://' + __dirname + '/web/index.html?screen=';
+
+global.screens = [];
 
 function init() {
-  let screens = YAML.load(configPath) || [];
+  global.screens = YAML.load(configPath) || [];
 
   for(var index = 0; index < screens.length; index++) {
     let screen = screens[index];
     screen.id = index;
-    let windows = createWindowsFor(screen);
-    rotate(windows, screen.rotation);
+    createWindow(screen);
   }
 }
 
-function createWindowsFor(screen) {
+function createWindow(screen) {
   let windows = [];
   let display = getDisplay(screen.id);
-  for(var i = 0; i < screen.urls.length; i++) {
-    let window = createWindow(display, screen.urls[i]);
-    windows.push(window);
-  }
-  return windows;
-}
 
-function createWindow(display, url) {
   let options = {
     x: display.bounds.x,
     y: display.bounds.y,
     frame: false
   };
   let window = new BrowserWindow(options);
-  window.loadURL(url);
+  window.loadURL(indexUrl + screen.id);
   window.maximize();
-  // window.setFullScreen(true);
-  return window;
-}
-
-function rotate(windows, every) {
-  // Only change focus if any of the windows already has focus
-  // otherwise the user might be doing something else and we steal
-  // focus
-  if(BrowserWindow.getFocusedWindow()) {
-    windows[0].focus();
-    // Rotate the array
-    windows.push(windows.shift());
-  }
-  setTimeout(function () { rotate(windows, every); }, every);
+  window.setFullScreen(true);
 }
 
 function getDisplay(index) {
