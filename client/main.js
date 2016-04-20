@@ -12,17 +12,18 @@ const configPath = "config.yml";
 
 function init() {
   let screens = YAML.load(configPath) || [];
-  console.log(screens);
+
   for(var index = 0; index < screens.length; index++) {
     let screen = screens[index];
-    let windows = createWindows(index, screen);
+    screen.id = index;
+    let windows = createWindowsFor(screen);
     rotate(windows, screen.rotation);
   }
 }
 
-function createWindows(index, screen) {
+function createWindowsFor(screen) {
   let windows = [];
-  let display = getDisplay(index);
+  let display = getDisplay(screen.id);
   for(var i = 0; i < screen.urls.length; i++) {
     let window = createWindow(display, screen.urls[i]);
     windows.push(window);
@@ -32,22 +33,26 @@ function createWindows(index, screen) {
 
 function createWindow(display, url) {
   let options = {
-    x: 0,
-    y: 0,
-    width: display.size.width,
-    height: display.size.height,
-    fullscreen: true,
+    x: display.bounds.x,
+    y: display.bounds.y,
     frame: false
   };
   let window = new BrowserWindow(options);
   window.loadURL(url);
+  window.maximize();
+  window.setFullScreen(true);
   return window;
 }
 
 function rotate(windows, every) {
-  windows[0].focus();
-  // Rotate the array
-  windows.push(windows.shift());
+  // Only change focus if any of the windows already has focus
+  // otherwise the user might be doing something else and we steal
+  // focus
+  if(BrowserWindow.getFocusedWindow()) {
+    windows[0].focus();
+    // Rotate the array
+    windows.push(windows.shift());
+  }
   setTimeout(function () { rotate(windows, every); }, every);
 }
 
