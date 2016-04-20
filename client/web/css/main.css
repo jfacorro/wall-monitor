@@ -1,0 +1,13 @@
+body {
+    margin: 0px;
+    padding: 0px;
+}
+
+#view {
+    height:100vh;
+}
+
+webview {
+    width: 100%;
+    height: 100%;
+}
