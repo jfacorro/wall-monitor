@@ -1,3 +1,5 @@
-screens:
-  - ["http://google.com", "http://github.com"]
+- urls:
+    - "http://google.com"
+    - "http://github.com"
+  rotation: 5000
 ##  - ["http://google.com", "http://github.com"]

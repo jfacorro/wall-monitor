@@ -10,29 +10,24 @@ const YAML = require('yamljs');
 // Config path
 const configPath = "config.yml";
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let windows;
-
 function init() {
-  windows = [];
-  let config = YAML.load(configPath) || {screens : []};
-  console.log(config);
-  for(var index = 0; index < config.screens.length; index++) {
-    createWindows(index, config.screens[index]);
-    // rotateWindows();
+  let screens = YAML.load(configPath) || [];
+  console.log(screens);
+  for(var index = 0; index < screens.length; index++) {
+    let screen = screens[index];
+    let windows = createWindows(index, screen);
+    rotate(windows, screen.rotation);
   }
-
-
 }
 
-function createWindows(index, urls) {
+function createWindows(index, screen) {
+  let windows = [];
   let display = getDisplay(index);
-
-  for(var i = 0; i < urls.length; i++) {
-    let window = createWindow(display, urls[i]);
+  for(var i = 0; i < screen.urls.length; i++) {
+    let window = createWindow(display, screen.urls[i]);
     windows.push(window);
   }
+  return windows;
 }
 
 function createWindow(display, url) {
@@ -47,6 +42,13 @@ function createWindow(display, url) {
   let window = new BrowserWindow(options);
   window.loadURL(url);
   return window;
+}
+
+function rotate(windows, every) {
+  windows[0].focus();
+  // Rotate the array
+  windows.push(windows.shift());
+  setTimeout(function () { rotate(windows, every); }, every);
 }
 
 function getDisplay(index) {
