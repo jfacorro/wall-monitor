@@ -8,7 +8,7 @@ const BrowserWindow = electron.BrowserWindow;
 // YAML parsers
 const YAML = require('yamljs');
 // Config path
-const configPath = "config.yml";
+const configPath = __dirname + "/config.yml";
 
 function init() {
   let screens = YAML.load(configPath) || [];
@@ -40,7 +40,7 @@ function createWindow(display, url) {
   let window = new BrowserWindow(options);
   window.loadURL(url);
   window.maximize();
-  window.setFullScreen(true);
+  // window.setFullScreen(true);
   return window;
 }
 
