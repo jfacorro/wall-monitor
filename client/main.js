@@ -20,16 +20,16 @@ const indexUrl = 'file://' + __dirname + '/web/index.html?screen=';
 global.screens = [];
 
 function loadConfig() {
-  if(fs.statSync(configPath).isFile()) {
-    return YAML.load(configPath)
-  } else {
-    dialog.showErrorBox("Missing configuration file", "There is no config.yml available.");
-    return [];
+  try {
+    fs.statSync(configPath);
+    return YAML.load(configPath);
+  } catch (e) {
+    dialog.showErrorBox("Missing configuration file", "There is no config.yml available in " + configPath);
+    app.quit();
   }
 }
 
 function init() {
-  console.log(configPath);
   global.screens = loadConfig();
 
   for(var index = 0; index < screens.length; index++) {
