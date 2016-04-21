@@ -15,7 +15,7 @@ const BrowserWindow = electron.BrowserWindow;
 // Config path
 const configPath = __dirname + '/config.yml';
 // Index page
-const indexUrl = 'file://' + __dirname + '/web/index.html?screen=';
+const indexUrl = 'file://' + __dirname + '/app/index.html?screen=';
 
 global.screens = [];
 

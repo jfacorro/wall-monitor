@@ -1,27 +1,19 @@
 {
   "name": "wall-monitor-kiosk",
   "version": "0.0.1",
-  "description": "A minimal Electron application",
+  "description": "A simple kiosk application for wall monitors",
   "main": "main.js",
   "scripts": {
     "start": "electron main.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/electron/electron-quick-start.git"
+    "url": "git+https://github.com/jfacorro/wall-monitor-kiosk.git"
   },
-  "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial"
-  ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
-  "bugs": {
-    "url": "https://github.com/electron/electron-quick-start/issues"
-  },
-  "homepage": "https://github.com/electron/electron-quick-start#readme",
+  "keywords": [],
+  "author": "Juan Facorro",
+  "license": "GPL",
+  "homepage": "https://github.com/jfacorro/wall-monitor-kiosk",
   "devDependencies": {
     "electron-prebuilt": "^0.37.0"
   },
