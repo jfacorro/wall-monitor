@@ -5,6 +5,8 @@ const electron = require('electron');
 const YAML = require('yamljs');
 // FileSystem
 const fs = require('fs');
+// Global Shortcuts
+const globalShortcut = require('global-shortcut');
 
 // Module to control application life.
 const app = electron.app;
@@ -22,21 +24,39 @@ global.screens = [];
 function loadConfig() {
   try {
     fs.statSync(configPath);
-    return YAML.load(configPath);
+    let config = YAML.load(configPath);
+    return validateConfig(config);
   } catch (e) {
     dialog.showErrorBox("Missing configuration file", "There is no config.yml available in " + configPath);
     app.quit();
   }
 }
 
+function validateConfig(config) {
+  let displays = require('screen').getAllDisplays();
+  if (config.length <= displays.length) {
+    return config;
+  }
+  dialog.showErrorBox("Invalid configuration", "There are no displays available for all the screens specified.");
+  app.quit();
+}
+
 function init() {
   global.screens = loadConfig();
+
+  let windows = [];
 
   for(var index = 0; index < screens.length; index++) {
     let screen = screens[index];
     screen.id = index;
-    createWindow(screen);
+    windows.push(createWindow(screen));
   }
+
+  globalShortcut.register('ctrl+shift+f', function () {
+    windows.forEach(function(w) {
+      w.setFullScreen(!w.isFullScreen());
+    });
+  });
 }
 
 function createWindow(screen) {
@@ -53,15 +73,13 @@ function createWindow(screen) {
   };
   let window = new BrowserWindow(options);
   window.loadURL(indexUrl + screen.id);
+  return window;
 }
 
 function getDisplay(index) {
   let screen = require('screen');
   let displays = screen.getAllDisplays();
-  if (index < displays.length) {
-    return displays[index];
-  }
-  throw "Not enough displays available!";
+  return displays[index];
 }
 
 // This method will be called when Electron has finished
@@ -69,8 +87,4 @@ function getDisplay(index) {
 app.on('ready', init);
 
 // Quit when all windows are closed.
-app.on('window-all-closed', function () {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  app.quit();
-});
+app.on('window-all-closed', app.quit);

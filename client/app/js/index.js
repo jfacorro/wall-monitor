@@ -1,4 +1,4 @@
-window.$ = window.jQuery = require('./js/jquery.js');
+'use strict';
 
 function rotate(webviews, every) {
     console.log('rotating');
@@ -13,6 +13,8 @@ function getParameterByName(name) {
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
 
+window.$ = window.jQuery = require('./js/jquery.js');
+
 $(function () {
     let remote = require('remote');
     let screens = remote.getGlobal('screens');
@@ -21,8 +23,7 @@ $(function () {
     let webviews = [];
 
     for(var i = 0; i < screen.urls.length; i++) {
-        let webview = $('<webview/>')
-                .attr('src', screen.urls[i]);
+        let webview = $('<webview/>').attr('src', screen.urls[i]);
         $('#view').append(webview);
 
         if(i === 0) {
