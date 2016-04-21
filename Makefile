@@ -1,3 +1,5 @@
+PLATFORM ?= darwin
+
 all: deps build
 
 deps:
@@ -6,7 +8,8 @@ deps:
 build: electron-packager
 	@rm -rf bin
 	@mkdir -p bin
-	@electron-packager client wall-monitor-kiosk --platform=darwin --arch=x64 \
+	@electron-packager client wall-monitor-kiosk --platform=${PLATFORM} \
+                --arch=x64 \
 		--out=bin --icon=client/icon.icns
 
 electron-packager:

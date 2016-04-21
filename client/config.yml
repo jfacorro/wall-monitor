@@ -1,5 +1,15 @@
+## Screen 1
 - urls:
     - "http://google.com"
     - "http://github.com"
   rotation: 5000
-##  - ["http://google.com", "http://github.com"]
+## Screen 2
+- urls:
+    - "http://maps.google.com"
+    - "http://klarna.com"
+  rotation: 1000
+## Screen 3
+- urls:
+    - "http://google.com"
+    - "http://github.com"
+  rotation: 1000
