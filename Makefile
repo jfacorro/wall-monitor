@@ -6,8 +6,8 @@ deps:
 build: electron-packager
 	@rm -rf bin
 	@mkdir -p bin
-	@electron-packager client wall-monitor-kiosk --platform=all --arch=x64 \
-		--out=bin --icon=icon.icns
+	@electron-packager client wall-monitor-kiosk --platform=darwin --arch=x64 \
+		--out=bin --icon=client/icon.icns
 
 electron-packager:
 	@if [ -z "$(which electron-packager)" ]; then \
