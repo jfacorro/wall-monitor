@@ -1,12 +1,17 @@
 'use strict';
 
 const electron = require('electron');
-// Module to control application life.
-const app = electron.app;
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow;
 // YAML parsers
 const YAML = require('yamljs');
+// FileSystem
+const fs = require('fs');
+
+// Module to control application life.
+const app = electron.app;
+// Module to control dialogs.
+const dialog = electron.dialog;
+// Module to create native browser window.
+const BrowserWindow = electron.BrowserWindow;
 // Config path
 const configPath = __dirname + '/config.yml';
 // Index page
@@ -14,8 +19,18 @@ const indexUrl = 'file://' + __dirname + '/web/index.html?screen=';
 
 global.screens = [];
 
+function loadConfig() {
+  if(fs.statSync(configPath).isFile()) {
+    return YAML.load(configPath)
+  } else {
+    dialog.showErrorBox("Missing configuration file", "There is no config.yml available.");
+    return [];
+  }
+}
+
 function init() {
-  global.screens = YAML.load(configPath) || [];
+  console.log(configPath);
+  global.screens = loadConfig();
 
   for(var index = 0; index < screens.length; index++) {
     let screen = screens[index];
@@ -31,12 +46,13 @@ function createWindow(screen) {
   let options = {
     x: display.bounds.x,
     y: display.bounds.y,
+    width: display.size.width,
+    height: display.size.height,
+    fullscreen: true,
     frame: false
   };
   let window = new BrowserWindow(options);
   window.loadURL(indexUrl + screen.id);
-  window.maximize();
-  window.setFullScreen(true);
 }
 
 function getDisplay(index) {

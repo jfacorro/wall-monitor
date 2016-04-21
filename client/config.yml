@@ -5,11 +5,11 @@
   rotation: 5000
 ## Screen 2
 - urls:
-    - "http://maps.google.com"
-    - "http://klarna.com"
-  rotation: 1000
+    - "http://lanacion.com.ar"
+    - "http://stackoverflow.com"
+  rotation: 5000
 ## Screen 3
 - urls:
-    - "http://google.com"
-    - "http://github.com"
-  rotation: 1000
+    - "http://twitter.com"
+    - "http://start"
+  rotation: 5000
