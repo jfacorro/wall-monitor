@@ -1,18 +1,5 @@
 'use strict';
 
-function rotate(webviews, every) {
-    console.log('rotating');
-    webviews[0].hide();
-    webviews.push(webviews.shift()); // Rotate the array
-    webviews[0].show().attr('style', 'width:100%; height: 100%');
-    setTimeout(function () { rotate(webviews, every); }, every);
-}
-
-function getParameterByName(name) {
-    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
-    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-}
-
 window.$ = window.jQuery = require('./js/jquery.js');
 
 $(function () {
@@ -20,6 +7,20 @@ $(function () {
     let screens = remote.getGlobal('screens');
     let id = getParameterByName('screen');
     let screen = screens[id];
+
+    switch(screen.layout.name) {
+    case 'carrousel':
+        carrousel(screen);
+        break;
+    }
+});
+
+function getParameterByName(name) {
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
+function carrousel(screen) {
     let webviews = [];
 
     for(var i = 0; i < screen.urls.length; i++) {
@@ -34,5 +35,15 @@ $(function () {
 
         webviews.push(webview);
     }
-    rotate(webviews, screen.rotation);
-});
+    rotate(webviews, screen.layout.time);
+}
+
+function rotate(webviews, every) {
+    webviews[0].hide();
+
+    webviews.push(webviews.shift()); // Rotate the array
+
+    webviews[0].show().attr('style', 'width:100%; height: 100%');
+
+    setTimeout(function () { rotate(webviews, every); }, every);
+}

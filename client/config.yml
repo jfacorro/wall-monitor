@@ -2,16 +2,22 @@
   urls:
     - "http://google.com"
     - "http://github.com"
-  rotation: 5000
+  layout:
+    name: "carrousel"
+    time: 5000
 
 - name: "Screen 2"
   urls:
     - "http://lanacion.com.ar"
     - "http://stackoverflow.com"
-  rotation: 5000
+  layout:
+    name: "carrousel"
+    time: 5000
 
 - name: "Screen 3"
   urls:
     - "http://twitter.com"
     - "http://start"
-  rotation: 5000
+  layout:
+    name: "carrousel"
+    time: 5000
