@@ -25,11 +25,9 @@ function init() {
 
   let windows = [];
 
-  for(var index = 0; index < screens.length; index++) {
-    let screen = screens[index];
-    screen.id = index;
-    windows.push(createWindow(screen));
-  }
+  screens.forEach(function(screen, index) {
+    windows.push(createWindow(screen, index));
+  });
 
   globalShortcut.register('ctrl+shift+f', function () {
     windows.forEach(function(w) {
@@ -38,9 +36,8 @@ function init() {
   });
 }
 
-function createWindow(screen) {
-  let windows = [];
-  let display = getDisplay(screen.id);
+function createWindow(screen, index) {
+  let display = getDisplay(index);
 
   let options = {
     x: display.bounds.x,
@@ -51,7 +48,7 @@ function createWindow(screen) {
     frame: false
   };
   let window = new BrowserWindow(options);
-  window.loadURL(indexUrl + screen.id);
+  window.loadURL(indexUrl + index);
   return window;
 }
 

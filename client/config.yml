@@ -1,15 +1,17 @@
-## Screen 1
-- urls:
+- name: "Screen 1"
+  urls:
     - "http://google.com"
     - "http://github.com"
   rotation: 5000
-## Screen 2
-- urls:
+
+- name: "Screen 2"
+  urls:
     - "http://lanacion.com.ar"
     - "http://stackoverflow.com"
   rotation: 5000
-## Screen 3
-- urls:
+
+- name: "Screen 3"
+  urls:
     - "http://twitter.com"
     - "http://start"
   rotation: 5000
