@@ -1,48 +1,27 @@
 'use strict';
 
 const electron = require('electron');
-// YAML parsers
-const YAML = require('yamljs');
-// FileSystem
-const fs = require('fs');
-// Global Shortcuts
-const globalShortcut = require('global-shortcut');
-
 // Module to control application life.
 const app = electron.app;
-// Module to control dialogs.
-const dialog = electron.dialog;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
-// Config path
-const configPath = __dirname + '/config.yml';
+
+// Global Shortcuts
+const globalShortcut = require('global-shortcut');
+// Configuration
+const config = require('./config');
+
 // Index page
 const indexUrl = 'file://' + __dirname + '/app/index.html?screen=';
 
 global.screens = [];
 
-function loadConfig() {
-  try {
-    fs.statSync(configPath);
-    let config = YAML.load(configPath);
-    return validateConfig(config);
-  } catch (e) {
-    dialog.showErrorBox("Missing configuration file", "There is no config.yml available in " + configPath);
-    app.quit();
-  }
-}
-
-function validateConfig(config) {
-  let displays = require('screen').getAllDisplays();
-  if (config.length <= displays.length) {
-    return config;
-  }
-  dialog.showErrorBox("Invalid configuration", "There are no displays available for all the screens specified.");
-  app.quit();
-}
-
 function init() {
-  global.screens = loadConfig();
+  global.screens = config.load();
+
+  if(global.screens === undefined) {
+    return app.quit();
+  }
 
   let windows = [];
 
