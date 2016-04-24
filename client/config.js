@@ -10,22 +10,19 @@ const dialog = electron.dialog;
 const YAML = require('yamljs');
 
 // Config path
-const path = __dirname + '/config.yml';
+const path = 'config.yml';
 
 module.exports = {
     load: load
 };
 
 function load() {
-    try {
-        fs.statSync(path);
-        let config = YAML.load(path);
-        return validate(config);
-    } catch (e) {
-        console.log(e);
-        dialog.showErrorBox( "Missing configuration file",
-                             "There is no config.yml available in " + path);
+    var configPath = path;
+    if(!fileExists(configPath)) {
+        configPath = open();
     }
+    let config = YAML.load(configPath);
+    return validate(config);
 }
 
 function validate(config) {
@@ -36,4 +33,25 @@ function validate(config) {
     dialog.showErrorBox( "Invalid configuration",
                          "There are no displays available for all the screens specified."
                        );
+}
+
+function fileExists(path) {
+    try {
+        fs.statSync(path);
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+
+function open() {
+    let opts = {
+        filters: [{name: 'Configuration', extensions: ['yml']}],
+        properties: ['openFile']
+    };
+    let selected = dialog.showOpenDialog(opts);
+    if(selected == undefined || selected.length == 0) {
+        return open();
+    }
+    return selected[0];
 }
