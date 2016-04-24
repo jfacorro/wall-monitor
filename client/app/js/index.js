@@ -12,6 +12,9 @@ $(function () {
     case 'carrousel':
         carrousel(screen);
         break;
+    case 'splitted':
+        splitted(screen);
+        break;
     }
 });
 
@@ -40,10 +43,27 @@ function carrousel(screen) {
 
 function rotate(webviews, every) {
     webviews[0].hide();
-
     webviews.push(webviews.shift()); // Rotate the array
-
     webviews[0].show().attr('style', 'width:100%; height: 100%');
 
     setTimeout(function () { rotate(webviews, every); }, every);
+}
+
+
+function splitted(screen) {
+    let orientation = screen.layout.orientation;
+    let count = screen.urls.length;
+    let percentage = 100 / count;
+
+    for(var i = 0; i < count; i++) {
+        let webview = $('<webview/>').attr('src', screen.urls[i]);
+        $('#view').append(webview);
+
+        let width  = (orientation == 'horizontal' ? 100 : percentage);
+        let height = (orientation == 'horizontal' ? percentage : 100);
+        let style = 'float: left;'
+                + ' width: ' + width + '%;'
+                + ' height:' + height + '%';
+        webview.attr('style', style);
+    }
 }
