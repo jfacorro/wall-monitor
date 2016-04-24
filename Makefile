@@ -1,5 +1,7 @@
 PLATFORM ?= darwin
 
+ELECTRON_PACKAGER=$(which electron-packager)
+
 all: deps build
 
 deps:
@@ -14,8 +16,6 @@ build: electron-packager
 		--overwrite
 
 electron-packager:
-	@if [ -z "$(which electron-packager)" ]; then \
-		echo "ERROR: "; \
+	@if [ -z "$(shell which electron-packager)" ]; then \
+		npm install electron-packager -g; \
 	fi
-
-#  npm install electron-packager -g;
