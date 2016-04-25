@@ -16,23 +16,54 @@ const indexUrl = 'file://' + __dirname + '/app/index.html?screen=';
 
 global.screens = [];
 
+let windows = [];
+
+const shortcuts = {
+  'ctrl+shift+f': toggleFullScreen,
+  'ctrl+r': reload,
+  'ctrl+o': open
+};
+
 function init() {
-  global.screens = config.load();
+  load(false);
+
+  for(let keys in shortcuts) {
+    globalShortcut.register(keys, shortcuts[keys]);
+  }
+}
+
+function load(requestPath) {
+  global.screens = config.load(requestPath);
 
   if(global.screens === undefined) {
     return app.quit();
   }
 
-  let windows = [];
-
   screens.forEach(function(screen, index) {
     windows.push(createWindow(screen, index));
   });
 
-  globalShortcut.register('ctrl+shift+f', function () {
-    windows.forEach(function(w) {
-      w.setFullScreen(!w.isFullScreen());
-    });
+}
+
+function reload() {
+  windows.forEach(function(w) {
+    w.close();
+  });
+  windows.length = 0;
+  load(false);
+}
+
+function open() {
+  windows.forEach(function(w) {
+    w.close();
+  });
+  windows.length = 0;
+  load(true);
+}
+
+function toggleFullScreen() {
+  windows.forEach(function(w) {
+    w.setFullScreen(!w.isFullScreen());
   });
 }
 

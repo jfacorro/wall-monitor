@@ -10,19 +10,25 @@ const dialog = electron.dialog;
 const YAML = require('yamljs');
 
 // Config path
-const path = 'config.yml';
+const path = __dirname + '/config.yml';
 
 module.exports = {
     load: load
 };
 
-function load() {
+function load(requestPath) {
     var configPath = path;
-    if(!fileExists(configPath)) {
+    if(requestPath || !fileExists(configPath)) {
         configPath = open();
     }
+    console.log('Loading file from: ' + configPath);
     let config = YAML.load(configPath);
-    return validate(config);
+    if(validate(config) != undefined) {
+        if(configPath != path) {
+            copy(configPath, path);
+        }
+        return config;
+    }
 }
 
 function validate(config) {
@@ -42,6 +48,10 @@ function fileExists(path) {
     } catch (e) {
         return false;
     }
+}
+
+function copy(origin, target) {
+    fs.createReadStream(origin).pipe(fs.createWriteStream(target));
 }
 
 function open() {
