@@ -27,28 +27,32 @@ function carrousel(screen) {
     let webviews = [];
 
     for(var i = 0; i < screen.urls.length; i++) {
-        let webview = $('<webview/>').attr('src', screen.urls[i]);
-        $('#view').append(webview);
+        let webview = $('<webview/>')
+                .attr('src', screen.urls[i])
+                .attr('style', 'width:100%; height: 100%');
+        let container = $('<div></div>')
+                .addClass('container')
+                .addClass(i === 0 ? 'top' : 'bottom')
+                .append(webview)
+                .prop('webview', webview.get(0));
 
-        if(i === 0) {
-            webview.show().attr('style', 'width:100%; height: 100%');
-        } else {
-            webview.hide();
-        }
+        $('#view').append(container);
 
-        webviews.push(webview);
+        webviews.push(container);
     }
     rotate(webviews, screen.layout.time);
 }
 
 function rotate(webviews, every) {
-    webviews[0].hide();
+    let prev = webviews[0];
     webviews.push(webviews.shift()); // Rotate the array
-    webviews[0].show().attr('style', 'width:100%; height: 100%');
+    let next = webviews[0];
+
+    next.removeClass('bottom').addClass('top');
+    prev.removeClass('top').addClass('bottom');
 
     setTimeout(function () { rotate(webviews, every); }, every);
 }
-
 
 function splitted(screen) {
     let orientation = screen.layout.orientation;

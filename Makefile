@@ -8,7 +8,7 @@ deps:
 	@cd client; npm install;cd ..
 
 build: electron-packager
-	@rm -rf bin; \
+	@rm -rf bin client/config.yml; \
 	mkdir -p bin; \
 	electron-packager client wall-monitor-kiosk --platform=${PLATFORM} \
 		--arch=x64 --out=bin --icon=client/icon.icns \
