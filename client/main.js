@@ -21,7 +21,8 @@ let windows = [];
 const shortcuts = {
   'ctrl+shift+f': toggleFullScreen,
   'ctrl+r': reload,
-  'ctrl+o': open
+  'ctrl+o': open,
+  'ctrl+alt+j': devTools
 };
 
 function init() {
@@ -59,6 +60,12 @@ function open() {
   });
   windows.length = 0;
   load(true);
+}
+
+function devTools() {
+  windows.forEach(function(w) {
+    w.openDevTools();
+  });
 }
 
 function toggleFullScreen() {
