@@ -47,19 +47,18 @@ function load(requestPath) {
 }
 
 function reload() {
-  windows.forEach(function(w) {
-    w.close();
-  });
-  windows.length = 0;
-  load(false);
+  open(true);
 }
 
-function open() {
-  windows.forEach(function(w) {
+function open(reload) {
+  let oldWindows = windows.slice();
+
+  windows.length = 0;
+  load(!reload);
+
+  oldWindows.forEach(function(w) {
     w.close();
   });
-  windows.length = 0;
-  load(true);
 }
 
 function devTools() {
