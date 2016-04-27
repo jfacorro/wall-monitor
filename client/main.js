@@ -77,6 +77,7 @@ function createWindow(screen, index) {
   let display = getDisplay(index);
 
   let options = {
+    title: screen.name || "Wall Monitor",
     x: display.bounds.x,
     y: display.bounds.y,
     width: display.size.width,
