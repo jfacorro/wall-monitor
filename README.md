@@ -20,27 +20,28 @@ The following is an example of what a configuration would look like in YAML:
 
 ```yaml
 - name: "Screen 1"
-  urls:
-    - "http://google.com"
-    - "http://github.com"
+  pages:
+    - url: "http://google.com"
+    - url: "http://github.com"
+      code: "alert('hello world!');"
   layout:
-    name: "splitted"
-    orientation: "vertical"
+    name: splitted
+    orientation: vertical
 
 - name: "Screen 2"
-  urls:
-    - "http://lanacion.com.ar"
-    - "http://stackoverflow.com"
+  pages:
+    - url: "http://lanacion.com.ar"
+    - url: "http://stackoverflow.com"
   layout:
-    name: "carrousel"
+    name: carrousel
     time: 5000
 
 - name: "Screen 3"
-  urls:
-    - "http://twitter.com"
-    - "http://start"
+  pages:
+    - url: "http://twitter.com"
+    - url: "http://start"
   layout:
-    name: "carrousel"
+    name: carrousel
     time: 10000
 ```
 
