@@ -10,6 +10,7 @@ const BrowserWindow = electron.BrowserWindow;
 const globalShortcut = require('global-shortcut');
 // Configuration
 const config = require('./config');
+const server = require('./server');
 
 // Index page
 const indexUrl = 'file://' + __dirname + '/app/index.html?screen=';
@@ -25,30 +26,43 @@ const shortcuts = {
   'ctrl+alt+j': devTools
 };
 
+module.exports = {
+    loadConfig: loadConfig
+};
+
 function init() {
   load(false);
 
   for(let keys in shortcuts) {
     globalShortcut.register(keys, shortcuts[keys]);
   }
-}
 
-function load(requestPath) {
-  global.screens = config.load(requestPath);
+  server.start();
+};
+
+// Load a configuration object
+function loadConfig(configObj) {
+  global.screens = configObj;
 
   if(global.screens === undefined) {
     return app.quit();
   }
 
+  config.save(global.screens);
+
   screens.forEach(function(screen, index) {
     windows.push(createWindow(screen, index));
   });
+};
 
-}
+// Load a configuration from a file
+function load(filePath) {
+  loadConfig(config.load(filePath));
+};
 
 function reload() {
   open(true);
-}
+};
 
 function open(reload) {
   let oldWindows = windows.slice();
@@ -59,19 +73,19 @@ function open(reload) {
   oldWindows.forEach(function(w) {
     w.close();
   });
-}
+};
 
 function devTools() {
   windows.forEach(function(w) {
     w.openDevTools();
   });
-}
+};
 
 function toggleFullScreen() {
   windows.forEach(function(w) {
     w.setFullScreen(!w.isFullScreen());
   });
-}
+};
 
 function createWindow(screen, index) {
   let display = getDisplay(index);
@@ -88,13 +102,13 @@ function createWindow(screen, index) {
   let window = new BrowserWindow(options);
   window.loadURL(indexUrl + index);
   return window;
-}
+};
 
 function getDisplay(index) {
   let screen = require('screen');
   let displays = screen.getAllDisplays();
   return displays[index];
-}
+};
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

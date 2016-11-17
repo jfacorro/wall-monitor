@@ -18,6 +18,7 @@
     "electron-prebuilt": "^0.37.0"
   },
   "dependencies": {
-    "yamljs": "^0.2.7 "
+    "yamljs": "^0.2.8",
+    "httpdispatcher": "^2.0.0"
   }
 }

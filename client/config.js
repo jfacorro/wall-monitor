@@ -13,7 +13,8 @@ const YAML = require('yamljs');
 const path = __dirname + '/config.yml';
 
 module.exports = {
-    load: load
+    load: load,
+    save: save
 };
 
 function load(requestPath) {
@@ -24,12 +25,14 @@ function load(requestPath) {
     console.log('Loading file from: ' + configPath);
     let config = YAML.load(configPath);
     if(validate(config) != undefined) {
-        if(configPath != path) {
-            copy(configPath, path);
-        }
         return config;
     }
-}
+};
+
+function save(config) {
+    let configStr = YAML.stringify(config);
+    fs.writeFile(path, configStr);
+};
 
 function validate(config) {
     let displays = require('screen').getAllDisplays();
@@ -39,7 +42,7 @@ function validate(config) {
     dialog.showErrorBox( "Invalid configuration",
                          "There are no displays available for all the screens specified."
                        );
-}
+};
 
 function fileExists(path) {
     try {
@@ -48,11 +51,11 @@ function fileExists(path) {
     } catch (e) {
         return false;
     }
-}
+};
 
 function copy(origin, target) {
     fs.createReadStream(origin).pipe(fs.createWriteStream(target));
-}
+};
 
 function open() {
     let opts = {
@@ -64,4 +67,4 @@ function open() {
         return open();
     }
     return selected[0];
-}
+};

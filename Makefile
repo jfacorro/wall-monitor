@@ -19,3 +19,6 @@ electron-packager:
 	@if [ -z "$(shell which electron-packager)" ]; then \
 		npm install electron-packager -g; \
 	fi
+
+run:
+	cd client; npm start
