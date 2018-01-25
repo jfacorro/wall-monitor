@@ -33,9 +33,10 @@ dispatcher.onGet("/", function(req, res) {
 
 dispatcher.onPost("/load", function(req, res) {
     try {
-        let main = require("./main");
+        let main   = require("./main");
         let config = YAML.parse(req.body);
-        main.loadConfig(config);
+
+        main.saveAndLoadConfig(config);
         res.writeHead(204, {'Content-Type': 'text/plain'});
     } catch (err) {
         console.log(err);

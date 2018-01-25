@@ -21,17 +21,17 @@ let windows = [];
 
 const shortcuts = {
   'ctrl+shift+f': toggleFullScreen,
-  'ctrl+r': reload,
+  'ctrl+r': load,
   'ctrl+o': open,
   'ctrl+alt+j': devTools
 };
 
 module.exports = {
-    loadConfig: loadConfig
+  saveAndLoadConfig: saveAndLoadConfig
 };
 
 function init() {
-  load(false);
+  load();
 
   for(let keys in shortcuts) {
     globalShortcut.register(keys, shortcuts[keys]);
@@ -40,39 +40,32 @@ function init() {
   server.start();
 };
 
-// Load a configuration object
-function loadConfig(configObj) {
+// Save and load a configuration object
+function saveAndLoadConfig(configObj) {
+  config.save(configObj);
+
+  let oldWindows = windows.slice();
+  windows.length = 0;
+
   global.screens = configObj;
-
-  if(global.screens === undefined) {
-    return app.quit();
-  }
-
-  config.save(global.screens);
-
-  screens.forEach(function(screen, index) {
+  global.screens.forEach(function(screen, index) {
     windows.push(createWindow(screen, index));
   });
-};
-
-// Load a configuration from a file
-function load(filePath) {
-  loadConfig(config.load(filePath));
-};
-
-function reload() {
-  open(true);
-};
-
-function open(reload) {
-  let oldWindows = windows.slice();
-
-  windows.length = 0;
-  load(!reload);
 
   oldWindows.forEach(function(w) {
     w.close();
   });
+};
+
+// Load a configuration from a file or reload the current config
+// when a file is specified.
+function load(maybeFilePath) {
+  saveAndLoadConfig(config.load(maybeFilePath));
+};
+
+// Show user an open file dialog
+function open() {
+  load(true);
 };
 
 function devTools() {

@@ -20,7 +20,7 @@ module.exports = {
 function load(requestPath) {
     var configPath = path;
     if(requestPath || !fileExists(configPath)) {
-        configPath = open();
+        configPath = openDialog();
     }
     console.log('Loading file from: ' + configPath);
     let config = YAML.load(configPath);
@@ -57,14 +57,14 @@ function copy(origin, target) {
     fs.createReadStream(origin).pipe(fs.createWriteStream(target));
 };
 
-function open() {
+function openDialog() {
     let opts = {
         filters: [{name: 'Configuration', extensions: ['yml']}],
         properties: ['openFile']
     };
     let selected = dialog.showOpenDialog(opts);
     if(selected == undefined || selected.length == 0) {
-        return open();
+        return openDialog();
     }
     return selected[0];
 };
