@@ -1,5 +1,8 @@
 # Change Log
 
+## [1.1.3](https://github.com/jfacorro/wall-monitor/tree/1.1.3) (2018-01-25)
+[Full Changelog](https://github.com/jfacorro/wall-monitor/compare/1.1.2...1.1.3)
+
 ## [1.1.2](https://github.com/jfacorro/wall-monitor/tree/1.1.2) (2017-10-19)
 [Full Changelog](https://github.com/jfacorro/wall-monitor/compare/1.1.1...1.1.2)
 
