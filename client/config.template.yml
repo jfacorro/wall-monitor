@@ -1,6 +1,0 @@
-- name: "Screen 1"
-  urls:
-    - "http://github.com/jfacorro/wall-monitor"
-  layout:
-    name: "carrousel"
-    time: 5000
