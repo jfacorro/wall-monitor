@@ -38,7 +38,7 @@ function carrousel(screen) {
 
         $('#view').append(container);
 
-        executeOnLoad(webview, screen.pages[i]);
+        onDomReady(webview, screen.pages[i]);
 
         webviews.push(container);
     }
@@ -75,21 +75,24 @@ function splitted(screen) {
                 + ' height:' + height + '%';
         webview.attr('style', style);
 
-        executeOnLoad(webview, screen.pages[i]);
+        onDomReady(webview, screen.pages[i]);
 
         webviews.push(webview);
     }
     return webviews;
-
 }
 
-function executeOnLoad(webview, page) {
-    if(page.code !== undefined) {
-        console.log(page.code);
-        let code = page.code;
-        let webviewObj = webview.get(0);
-        webview.on('dom-ready', function() {
-            webviewObj.executeJavaScript(code);
-        });
-    }
+function onDomReady(webview, page) {
+
+    let webviewObj = webview.get(0);
+    webview.on('dom-ready', function() {
+        if(page.zoom !== undefined) {
+            console.log('Zoom factor ' + page.zoom);
+            webviewObj.setZoomFactor(page.zoom);
+        }
+        if(page.code !== undefined) {
+            console.log('Startup code' + page.code);
+            webviewObj.executeJavaScript(page.code);
+        }
+    });
 }
