@@ -1,5 +1,13 @@
 # Change Log
 
+## [Unreleased](https://github.com/jfacorro/wall-monitor/tree/1.2.0)
+
+[Full Changelog](https://github.com/jfacorro/wall-monitor/compare/1.1.3...1.2.0)
+
+**Merged pull requests:**
+
+- Support for configuring zoom factor [\#2](https://github.com/jfacorro/wall-monitor/pull/2) ([bromid](https://github.com/bromid))
+
 ## [1.1.3](https://github.com/jfacorro/wall-monitor/tree/1.1.3) (2018-01-25)
 [Full Changelog](https://github.com/jfacorro/wall-monitor/compare/1.1.2...1.1.3)
 
