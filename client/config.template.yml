@@ -1,6 +1,9 @@
 - name: "Screen 1"
-  urls:
-    - "http://github.com/jfacorro/wall-monitor"
+  pages:
+    - url: "http://jfacorro.github.io/wall-monitor/"
+      zoom: 2.0
+    - url: "http://jfacorro.github.io/wall-monitor/"
+      zoom: 0.5
   layout:
     name: "carrousel"
     time: 5000
