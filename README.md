@@ -35,6 +35,7 @@ The following is an example of what a configuration would look like in YAML:
 - name: "Screen 1"
   pages:
     - url: "http://google.com"
+      zoom: 0.5
     - url: "http://github.com"
       code: "alert('hello world!');"
   layout:
