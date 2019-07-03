@@ -31,11 +31,11 @@ function load(requestPath) {
 
 function save(config) {
     let configStr = YAML.stringify(config);
-    fs.writeFile(path, configStr);
+    fs.writeFileSync(path, configStr);
 };
 
 function validate(config) {
-    let displays = require('screen').getAllDisplays();
+    let displays = electron.screen.getAllDisplays();
     if (config.length <= displays.length) {
         return config;
     }
