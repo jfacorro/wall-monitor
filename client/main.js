@@ -1,13 +1,13 @@
 'use strict';
 
 const electron = require('electron');
-// Module to control application life.
-const app = electron.app;
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow;
 
-// Global Shortcuts
-const globalShortcut = require('global-shortcut');
+// Module to control application life.
+const {app, globalShortcut} = require('electron');
+
+// Module to create native browser window.
+const { BrowserWindow } = require('electron');
+
 // Configuration
 const config = require('./config');
 const server = require('./server');
@@ -90,7 +90,11 @@ function createWindow(screen, index) {
     width: display.size.width,
     height: display.size.height,
     fullscreen: true,
-    frame: false
+    frame: false,
+    webPreferences: {
+      nodeIntegration: true,
+      webviewTag: true
+    }
   };
   let window = new BrowserWindow(options);
   window.loadURL(indexUrl + index);
@@ -98,8 +102,7 @@ function createWindow(screen, index) {
 };
 
 function getDisplay(index) {
-  let screen = require('screen');
-  let displays = screen.getAllDisplays();
+  let displays = electron.screen.getAllDisplays();
   return displays[index];
 };
 

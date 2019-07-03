@@ -9,7 +9,7 @@ const dispatcher = new HttpDispatcher();
 const PORT = 8080;
 
 module.exports = {
-    start: start
+  start: start
 };
 
 function start() {
@@ -18,29 +18,29 @@ function start() {
 };
 
 function handler (req, res) {
-    try {
-        console.log(req.url);
-        dispatcher.dispatch(req, res);
-    } catch(err) {
-        console.log(err);
-    }
+  try {
+    console.log(req.url);
+    dispatcher.dispatch(req, res);
+  } catch(err) {
+    console.log(err);
+  }
 };
 
 dispatcher.onGet("/", function(req, res) {
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end('Hello world!');
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('Hello world!');
 });
 
 dispatcher.onPost("/load", function(req, res) {
-    try {
-        let main   = require("./main");
-        let config = YAML.parse(req.body);
+  try {
+    let main   = require("./main");
+    let config = YAML.parse(req.body);
 
-        main.saveAndLoadConfig(config);
-        res.writeHead(204, {'Content-Type': 'text/plain'});
-    } catch (err) {
-        console.log(err);
-        res.writeHead(400, {'Content-Type': 'text/plain'});
-    }
-    res.end();
+    main.saveAndLoadConfig(config);
+    res.writeHead(204, {'Content-Type': 'text/plain'});
+  } catch (err) {
+    console.log(err);
+    res.writeHead(400, {'Content-Type': 'text/plain'});
+  }
+  res.end();
 });
