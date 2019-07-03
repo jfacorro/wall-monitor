@@ -59,13 +59,15 @@ function rotate(webviews, every) {
 function splitted(screen) {
   let orientation = screen.layout.orientation;
   let count = screen.pages.length;
-  let percentage = 100 / count;
+  let defaultPercentage = 100 / count;
+  let distribution = screen.layout.distribution? screen.layout.distribution : [];
   let webviews = [];
 
   for(var i = 0; i < count; i++) {
     console.log(screen.pages[i]);
     let webview = $('<webview/>').attr('src', screen.pages[i].url);
     $('#view').append(webview);
+    let percentage = distribution[i]? distribution[i] : defaultPercentage;
     let width  = (orientation == 'horizontal' ? 100 : percentage);
     let height = (orientation == 'horizontal' ? percentage : 100);
     let style = 'float: left;'
@@ -81,7 +83,6 @@ function splitted(screen) {
 }
 
 function onDomReady(webview, page) {
-
   let webviewObj = webview.get(0);
   webview.on('dom-ready', function() {
     if(page.zoom !== undefined) {
