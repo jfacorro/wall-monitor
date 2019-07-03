@@ -26,8 +26,12 @@ The `carrousel` layout has a single configuration value called `time`, which det
 specific URL is shown on screen before rotating to the next one. The value is an integer which represent
 the amount of milliseconds.
 
-The `splitted` layout also has a single configuration value called `orientation`, which determines if the
-screen will be splitted in the `vertical` or `horizontal` direction.
+The `splitted` layout has two configuration values:
+
+- `orientation`: which determines if the screen will be splitted in the `vertical` or `horizontal`
+  direction. The default is `vertical`.
+- `distribution`: list of percentages to be used for the size of each section in the splitted screen.
+  When this configuration is not provided the size will be distributed evenly between the pages.
 
 The following is an example of what a configuration would look like in YAML:
 
@@ -41,6 +45,9 @@ The following is an example of what a configuration would look like in YAML:
   layout:
     name: splitted
     orientation: vertical
+    distribution:
+        - 30
+        - 70
 
 - name: "Screen 2"
   pages:
