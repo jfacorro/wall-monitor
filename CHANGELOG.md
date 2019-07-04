@@ -1,7 +1,15 @@
 # Change Log
 
-## [Unreleased](https://github.com/jfacorro/wall-monitor/tree/1.2.0)
+## [1.3.0](https://github.com/jfacorro/wall-monitor/tree/1.3.0)
 
+[Full Changelog](https://github.com/jfacorro/wall-monitor/compare/1.2.0...1.3.0)
+
+**Merged pull requests:**
+
+- Configuration value for splitted layout to specify percentage of screen per page [\#4](https://github.com/jfacorro/wall-monitor/pull/4) ([jfacorro](https://github.com/jfacorro))
+- Use electron 5.0.6 [\#3](https://github.com/jfacorro/wall-monitor/pull/3) ([jfacorro](https://github.com/jfacorro))
+
+## [1.2.0](https://github.com/jfacorro/wall-monitor/tree/1.2.0) (2018-07-04)
 [Full Changelog](https://github.com/jfacorro/wall-monitor/compare/1.1.3...1.2.0)
 
 **Merged pull requests:**
