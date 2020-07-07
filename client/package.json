@@ -15,7 +15,7 @@
   "license": "GPL-3.0",
   "homepage": "https://github.com/jfacorro/wall-monitor-kiosk",
   "devDependencies": {
-    "electron": "^5.0.6"
+    "electron": "^9.1.0"
   },
   "dependencies": {
     "yamljs": "^0.2.8",
